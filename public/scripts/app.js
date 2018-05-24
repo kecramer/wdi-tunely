@@ -42,9 +42,26 @@ $.ajax({
     })
   }
   })
+$('#newAlbumForm').submit( (e) => {
+  e.preventDefault();
+  var albumUpdates = $('#newAlbumForm').serializeArray();
+  var queryParams = `name=${albumUpdates[0].value}&artistName=${albumUpdates[1].value}&releaseDate=${albumUpdates[2].value}`
+  console.log(queryParams);
+  $('#newAlbumForm input').val('');
+  $.ajax({
+    url: `api/albums?${queryParams}`,
+    method: 'POST',
+    success: (album) => {
+      console.log('new album: ' + JSON.stringify(album));
+      renderAlbum(album);
+    }
 
+  })
+})
 
 });
+
+
 
 
 
