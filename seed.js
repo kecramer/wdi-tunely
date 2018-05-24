@@ -22,6 +22,33 @@ var albumsList = [{
 	genres: [ 'country', 'rock' ]
 }];
 
+var songsList = [{
+  name: 'Swamped',
+  trackNumber: 1
+}, {
+  name: "Heaven's a Lie",
+  trackNumber: 2
+}, {
+  name: 'Daylight Dancer',
+  trackNumber: 3
+}, {
+  name: 'Humane',
+  trackNumber: 4
+}, {
+  name: 'Self Deception',
+  trackNumber: 5
+}, {
+  name: 'Aeon',
+  trackNumber: 6
+}, {
+  name: 'Tight Rope',
+  trackNumber: 7
+}];
+
+albumsList.forEach((album) => {
+	album.tracks = songsList;
+} )
+
 db.Album.remove({}, function(err, albums){
 	// code in here runs after all albums are removed
 	db.Album.create(albumsList, function(err, albums){

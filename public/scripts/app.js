@@ -42,24 +42,48 @@ $.ajax({
     })
   }
   })
-$('#newAlbumForm').submit( (e) => {
+  $('#newAlbumForm').submit( (e) => {
+    e.preventDefault();
+    var albumUpdates = $('#newAlbumForm').serializeArray();
+    var queryParams = `name=${albumUpdates[0].value}&artistName=${albumUpdates[1].value}&releaseDate=${albumUpdates[2].value}`
+    console.log(queryParams);
+    $('#newAlbumForm input').val('');
+    $.ajax({
+      url: `api/albums?${queryParams}`,
+      method: 'POST',
+      success: (album) => {
+        console.log('new album: ' + JSON.stringify(album));
+        renderAlbum(album);
+      }
+
+    })
+
+})
+$('#albums').on('click', '.add-song', function(e) {
+    console.log('add-song clicked!');
+    var id= $(this).closest('.album').data('album-id');
+    $('#songModal').data('album-id', id).modal();
+    console.log('id',id);
+});
+$('#saveSong').on('click', (e) => {
   e.preventDefault();
-  var albumUpdates = $('#newAlbumForm').serializeArray();
-  var queryParams = `name=${albumUpdates[0].value}&artistName=${albumUpdates[1].value}&releaseDate=${albumUpdates[2].value}`
+  var songName = $('#songName').val();
+  var trackNumber = $('#trackNumber').val();
+  var queryParams = `name=${songName}&trackNumber=${trackNumber}`
   console.log(queryParams);
   $('#newAlbumForm input').val('');
-  $.ajax({
-    url: `api/albums?${queryParams}`,
-    method: 'POST',
-    success: (album) => {
-      console.log('new album: ' + JSON.stringify(album));
-      renderAlbum(album);
-    }
+  // $.ajax({
+  //   url: `api/albums?${queryParams}`,
+  //   method: 'POST',
+  //   success: (album) => {
+  //     console.log('new album: ' + JSON.stringify(album));
+  //     renderAlbum(album);
+  //   }
 
   })
-})
-
 });
+
+
 
 
 
@@ -68,9 +92,13 @@ $('#newAlbumForm').submit( (e) => {
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   console.log('rendering album:', album);
+  var trackTemplate = '';
+  album.tracks.forEach((track) => {
+    trackTemplate += ` - (${track.trackNumber}) ${track.name}`
+  })
 
 var albumTemplate = `
-  <div class="row album">
+  <div class="row album" data-album-id="${album._id}">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-default">
         <div class="panel-body">
@@ -92,10 +120,15 @@ var albumTemplate = `
                   <h4 class='inline-header'>Released date:</h4>
                   <span class='album-releaseDate'>${album.releaseDate}</span>
                 </li>
+                <li class="list-group-item">
+                  <h4 class="inline-header">Songs:</h4>
+                  <span>${trackTemplate}</span>
+                </li>
               </ul>
             </div>
           </div>
           <div class='panel-footer'>
+            <button class='btn btn-primary add-song'>Add Song</button>
           </div>
         </div>
       </div>
