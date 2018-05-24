@@ -1,0 +1,29 @@
+{
+  "name": "tunely",
+  "version": "1.0.0",
+  "description": "wdi project to show MVC concepts",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.generalassemb.ly:sf-wdi-45/tunely.git"
+  },
+  "keywords": [
+    "mvc",
+    "tunely",
+    "wdi"
+  ],
+  "author": "kevin",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.2"
+  }
+}
