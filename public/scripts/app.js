@@ -70,17 +70,21 @@ $('#saveSong').on('click', (e) => {
   var songName = $('#songName').val();
   var trackNumber = $('#trackNumber').val();
   var queryParams = `name=${songName}&trackNumber=${trackNumber}`
+  var albumId = $('#songModal').data('album-id');
   console.log(queryParams);
-  $('#newAlbumForm input').val('');
-  // $.ajax({
-  //   url: `api/albums?${queryParams}`,
-  //   method: 'POST',
-  //   success: (album) => {
-  //     console.log('new album: ' + JSON.stringify(album));
-  //     renderAlbum(album);
-  //   }
+  $('#songModal input').val('');
+  $.ajax({
+    url: `api/album/${albumId}/tracks?${queryParams}`,
+    method: 'POST',
+    success: (updatedAlbum) => {
+      console.log('new track: ' + JSON.stringify(updatedAlbum));
+      $(`#${albumId}`).remove();
+      renderAlbum(updatedAlbum);
+
+    }
 
   })
+});
 });
 
 
@@ -98,7 +102,7 @@ function renderAlbum(album) {
   })
 
 var albumTemplate = `
-  <div class="row album" data-album-id="${album._id}">
+  <div class="row album" data-album-id="${album._id}" id="${album._id}">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-default">
         <div class="panel-body">
@@ -120,7 +124,7 @@ var albumTemplate = `
                   <h4 class='inline-header'>Released date:</h4>
                   <span class='album-releaseDate'>${album.releaseDate}</span>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item trackList">
                   <h4 class="inline-header">Songs:</h4>
                   <span>${trackTemplate}</span>
                 </li>

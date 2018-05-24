@@ -56,6 +56,11 @@ function create(req, res) {
 };
 
 function show(req, res) {
+	var albumId = req.params.id;
+  db.Album.findById(albumId, (err, album) => {
+    res.json(album);
+    });
+  } 
 
 };
 
