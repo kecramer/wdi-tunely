@@ -32,6 +32,10 @@ var sampleAlbums = [{
 
 $(document).ready(function() {
   console.log('app.js loaded!');
+  sampleAlbums.forEach((album) => {
+    renderAlbum(album)
+  })
+
 });
 
 
@@ -72,6 +76,6 @@ var albumTemplate = `
       </div>
     </div>
   </div>`;
-
+$('#albums').append(albumTemplate);
 
 }
