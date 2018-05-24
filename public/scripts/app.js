@@ -30,11 +30,19 @@ var sampleAlbums = [{
 }];
 
 
-$(document).ready(function() {
+$(document).ready(() => {
   console.log('app.js loaded!');
-  sampleAlbums.forEach((album) => {
-    renderAlbum(album)
+$.ajax({
+  url: '/api/albums',
+  method: 'GET',
+  success: (albumData) => {
+    console.log('album data: ' + JSON.stringify(albumData.albums))
+    albumData.albums.forEach((album) => {
+      renderAlbum(album)
+    })
+  }
   })
+
 
 });
 

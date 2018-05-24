@@ -12,6 +12,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', controller.api.index);
+app.get('/api/albums', controller.albums.index);
+
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log('Book app listening at http://localhost:3000/');

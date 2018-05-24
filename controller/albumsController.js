@@ -25,7 +25,7 @@ var albums = [{
 }];
 
 function index(req, res) {
-
+	res.json({albums});
 };
 
 function create(req, res) {
